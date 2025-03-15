@@ -31,6 +31,11 @@ def clear():
     return redirect('/')
 
 
+@app.route('/yandex_bde153881c2a5c78.html')
+def ya():
+    return render_template('yandex_bde153881c2a5c78.html')
+
+
 @app.route('/to-learn', methods=['GET', 'POST'])
 def to_learn():
     answer_res = ''
@@ -61,4 +66,4 @@ def to_learn():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
