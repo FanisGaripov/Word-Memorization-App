@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Memorization App</title>
+    <!-- Подключаем Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Навбар */
+        .navbar {
+            width: 100%;
+            background: #6c5ce7;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-left: 1rem;
+            text-decoration: none;
+        }
+
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-right: 3rem;
+            justify-content: flex-start;
+        }
+
+        .navbar .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .navbar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Контейнер с формой */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            margin-top: 6rem; /* Отступ для навбара */
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: #6c5ce7;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .submit-btn {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .submit-btn:hover {
+            background-color: #5a4dbf;
+        }
+
+        .clear-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Контейнер со списком слов */
+        .words-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 2rem;
+            max-height: 300px; /* Ограничение высоты */
+            overflow-y: auto; /* Прокрутка при необходимости */
+        }
+
+        .words-list h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .words-list p {
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .user-input {
+            font-size: 1rem;
+            color: #6c5ce7;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        /* Контейнер с описанием */
+        .description-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .description-container h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .description-container p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навбар -->
+    <div class="navbar">
+        <a class="logo" href="/">
+            <i class="fas fa-book"></i>
+            Word Memorization
+        </a>
+        <div class="nav-buttons">
+            <a href="/" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Главная
+            </a>
+            <a href="/to-learn" class="nav-btn">
+                <i class="fas fa-graduation-cap"></i>
+                Учить
+            </a>
+        </div>
+    </div>
+
+    <!-- Контейнер с формой -->
+    <div class="form-container">
+        <h1>Добавьте новое слово</h1>
+        <form method="post">
+            <div class="form-group">
+                <input type="text" id="user_input" name="user_input" placeholder="Введите слово или словосочетание" required>
+                <input type="text" id="word_translate" name="word_translate" placeholder="Введите перевод" required>
+            </div>
+            <button type="submit" class="submit-btn">Добавить</button>
+        </form>
+        <form action="/clear">
+            <button type="submit" class="clear-btn">Очистить список</button>
+        </form>
+        {% if user_input %}
+            <p class="user-input">Вы ввели: {{ user_input }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Контейнер со списком слов -->
+    {% if words_list|length != 0 %}
+    <div class="words-container">
+        <div class="words-list">
+            <h5>Список всех слов, которые вы ввели:</h5>
+            {% for word in words_list %}
+                <p>{{ word }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="words-container">
+        <div class="words-list">
+            <h5>Список всех слов, которые вы ввели:</h5>
+            <p>Список пуст! Начните ввод слов.</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Контейнер с описанием -->
+    <div class="description-container">
+        <h5>В чем суть этого сайта?</h5>
+        <p>Сайт разработан для помощи в изучении определенных слов на разных языках мира. Здесь нет базы данных со словами, или чего-то подобного. Пользователь вписывает определенное количество слов с их переводом, а сайт, в свою очередь выдает их в разном порядке, что ускоряет изучение слов. Возможны варианты с Английского(или другого языка) на русский и наоборот.</p>
+    </div>
+</body>
+</html>

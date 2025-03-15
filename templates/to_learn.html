@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Memorization App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Навбар */
+        .navbar {
+            width: 100%;
+            background: #6c5ce7;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-left: 1rem;
+        }
+
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-right: 3rem;
+            justify-content: flex-start;
+        }
+
+        .navbar .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .navbar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Контейнеры */
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            margin-top: 6rem; /* Отступ для навбара */
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .word-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #6c5ce7;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .submit-btn {
+            background-color: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #5a4dbf;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .feedback.yes {
+            color: #27ae60;
+        }
+
+        .feedback.no {
+            color: #e74c3c;
+        }
+        .logo {
+        text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навбар -->
+    <div class="navbar">
+        <a class="logo" href="/">
+            <i class="fas fa-book"></i> Word Memorization</a>
+        <div class="nav-buttons">
+            <a href="/" class="nav-btn">
+                <i class="fas fa-home"></i> Главная</a>
+            <a href="/to-learn" class="nav-btn">
+                <i class="fas fa-graduation-cap"></i> Учить</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Напиши, что это за слово:</h1>
+        {% if random_word_eng is none or random_word_eng|length < 2 %}
+        <div class="word-display">Слов нет, введи минимум 4 слова</div>
+        {% else %}
+        <div class="word-display">{{ random_word_eng }}</div>
+        {% endif %}
+        <form method="post">
+            <div class="form-group">
+                <input type="text" id="user_answer" name="user_answer" placeholder="Введите перевод">
+            </div>
+            <button type="submit" class="submit-btn">Ответить</button>
+        </form>
+        {% if answer_res %}
+            <div class="feedback {% if 'YES' in answer_res %}yes{% else %}no{% endif %}">
+                {{ answer_res }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
