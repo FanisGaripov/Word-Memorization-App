@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.jpg">
+    <title>Главная страница - Word Memorization</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+        }
+
+        /* Навбар */
+        .navbar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-right: 3rem;
+            justify-content: flex-start;
+        }
+
+        .navbar .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .navbar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Основной контент */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeIn 4s ease-in-out;
+        }
+
+        .hero-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .hero-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навбар -->
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="/static/favicon.jpg" alt="" class="logo-image" width="32" height="32">
+            <a class="logo" href="/">Word Memorization</a>
+        </div>
+        <div class="nav-buttons">
+            <a href="/add-words" class="nav-btn">
+                <i class="fas fa-home"></i>
+                В меню
+            </a>
+            {% if words_history is not none %}
+            <a href="/to-learn" class="nav-btn">
+                <i class="fas fa-graduation-cap"></i>
+                Учить
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Учите слова легко и быстро!</h1>
+            <p>
+                Word Memorization — это простой и удобный способ запоминать новые слова на английском и других языках.
+                Начните учить слова прямо сейчас и улучшайте свои навыки каждый день!
+            </p>
+            <div class="hero-buttons">
+                <a href="/add-words" class="hero-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    Начать учить
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

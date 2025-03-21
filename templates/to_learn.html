@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.jpg">
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=g0AHAVRN"></script>
     <title>Word Memorization App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -34,11 +37,17 @@
             align-items: center;
         }
 
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .navbar .logo {
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
-            margin-left: 1rem;
+            text-decoration: none;
         }
 
         .navbar .nav-buttons {
@@ -128,6 +137,22 @@
             background-color: #5a4dbf;
         }
 
+        .danger-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .danger-btn:hover {
+            background-color: #c0392b;
+        }
+
         .feedback {
             margin-top: 1.5rem;
             font-size: 1.1rem;
@@ -149,22 +174,47 @@
 <body>
     <!-- Навбар -->
     <div class="navbar">
-        <a class="logo" href="/">
-            <i class="fas fa-book"></i> Word Memorization</a>
+    <div class="logo-container">
+        <img src="/static/favicon.jpg" alt="" class="logo-image" width="32" height="32">
+        <a class="logo" href="/">Word Memorization</a>
+    </div>
         <div class="nav-buttons">
-            <a href="/" class="nav-btn">
-                <i class="fas fa-home"></i> Главная</a>
+            <a href="/add-words" class="nav-btn">
+                <i class="fas fa-home"></i> В меню</a>
             <a href="/to-learn" class="nav-btn">
                 <i class="fas fa-graduation-cap"></i> Учить</a>
             </div>
         </div>
     </div>
     <div class="container">
+        <div class="mode-container">
+    <form method="POST">
+        <button type="submit" name="change_mode" class="mode-btn">
+            {% if mode == "en_to_ru" %}
+                Переключить на режим: Русский → Английский
+            {% else %}
+                Переключить на режим: Английский → Русский
+            {% endif %}
+        </button>
+    </form>
+</div>
+
         <h1>Напиши, что это за слово:</h1>
         {% if random_word_eng is none or random_word_eng|length < 2 %}
-        <div class="word-display">Слов нет, введи минимум 4 слова</div>
+        <div class="word-display">Мало слов :(, введи минимум 4 слова(2 слова, 2 перевода)</div>
+        <form action="/add-words">
+            <button type="submit" class="submit-btn">Добавить слова</button>
+        </form>
         {% else %}
+        {% if mode == "en_to_ru" %}
         <div class="word-display">{{ random_word_eng }}</div>
+        {% else %}
+        <div class="word-display">
+            {{ random_word_rus }}
+            <button class="speaker-btn" onclick="speakWord('{{ random_word_eng }}')">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
         {% endif %}
         <form method="post">
             <div class="form-group">
@@ -172,11 +222,74 @@
             </div>
             <button type="submit" class="submit-btn">Ответить</button>
         </form>
+        <br>
+        <form method="post" action="/clear-stat">
+            <button type="submit" class="danger-btn">Очистить статистику</button>
+        </form>
+        {% endif %}
         {% if answer_res %}
             <div class="feedback {% if 'YES' in answer_res %}yes{% else %}no{% endif %}">
                 {{ answer_res }}
             </div>
         {% endif %}
+        {% if random_word_eng is not none and random_word_eng|length >= 2 %}
+        <p>Правильные ответы: {{ right }}</p>
+        <p>Всего: {{ count }}</p>
+        {% if count != 0 %}
+        <p>Процент правильных ответов: {{ ((right / count) * 100)|round(2) }}%</p>
+        {% else %}
+        <p>Процент правильных ответов: 0%</p>
+        {% endif %}
+        {% endif %}
     </div>
+<style>
+    .progress-container {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .progress-container h3 {
+        margin-bottom: 10px;
+        color: #6c5ce7;
+    }
+    .progress-container p {
+        margin: 5px 0;
+        font-size: 1.1rem;
+    }
+    .mode-container {
+        margin-bottom: 20px;
+    }
+    .mode-btn {
+        padding: 10px 20px;
+        background-color: #6c5ce7;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .mode-btn:hover {
+        background-color: #5a4dbf;
+    }
+    .speaker-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #6c5ce7;
+        transition: color 0.3s ease;
+    }
+
+    .speaker-btn:hover {
+        color: #5a4dbf;
+    }
+</style>
+<script>
+    function speakWord(word) {
+        responsiveVoice.speak(word, "UK English Male", {rate: 1, pitch: 1});
+    }
+</script>
 </body>
 </html>

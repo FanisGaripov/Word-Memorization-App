@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.jpg">
     <title>Word Memorization App</title>
     <!-- Подключаем Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -35,11 +37,16 @@
             align-items: center;
         }
 
+        .navbar .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .navbar .logo {
             font-size: 1.5rem;
             font-weight: bold;
             color: white;
-            margin-left: 1rem;
             text-decoration: none;
         }
 
@@ -202,20 +209,20 @@
 <body>
     <!-- Навбар -->
     <div class="navbar">
-        <a class="logo" href="/">
-            <i class="fas fa-book"></i>
-            Word Memorization
+    <div class="logo-container">
+        <img src="/static/favicon.jpg" alt="" class="logo-image" width="32" height="32">
+        <a class="logo" href="/">Word Memorization</a>
+    </div>
+    <div class="nav-buttons">
+        <a href="/add-words" class="nav-btn">
+            <i class="fas fa-home"></i>
+            В меню
         </a>
-        <div class="nav-buttons">
-            <a href="/" class="nav-btn">
-                <i class="fas fa-home"></i>
-                Главная
-            </a>
-            <a href="/to-learn" class="nav-btn">
-                <i class="fas fa-graduation-cap"></i>
-                Учить
-            </a>
-        </div>
+        <a href="/to-learn" class="nav-btn">
+            <i class="fas fa-graduation-cap"></i>
+            Учить
+        </a>
+    </div>
     </div>
 
     <!-- Контейнер с формой -->
