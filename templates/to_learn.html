@@ -227,7 +227,12 @@
         </form>
         {% else %}
         {% if mode == "en_to_ru" %}
-        <div class="word-display">{{ random_word_eng }}</div>
+        <div class="word-display">
+            {{ random_word_eng }}
+            <button class="speaker-btn" onclick="speakWord('{{ random_word_eng }}')">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
         {% else %}
         <div class="word-display">
             {{ random_word_rus }}
